@@ -1,417 +1,172 @@
 :root {
-  --bg-main: #f4f7fc;
+  --bg: #e9eef4;
   --card: #ffffff;
-  --text: #1f2d3d;
-  --soft: #5c6f82;
-  --accent: #4f46e5;
-  --accent-2: #14b8a6;
-  --orange: #ff8a35;
+  --ink: #1f2937;
+  --muted: #4b5563;
+  --primary: #1d4ed8;
+  --steel: #49586b;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: "Nunito", system-ui, sans-serif;
-  color: var(--text);
-  background: radial-gradient(circle at 20% 10%, #ebf3ff 0, #f8fbff 35%, var(--bg-main) 100%);
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 10% 0%, #f4f8ff, #edf2f8 35%, var(--bg) 100%);
 }
 
-.app-shell {
-  max-width: 1250px;
+.layout {
+  max-width: 1320px;
   margin: 0 auto;
   padding: 1rem;
   display: grid;
   gap: 1rem;
 }
 
-.hero-card,
-.control-panel,
-.insight-card {
+.header, .panel {
   background: var(--card);
-  border-radius: 20px;
-  box-shadow: 0 18px 35px rgba(15, 35, 64, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(29, 41, 57, 0.12);
 }
 
-.hero-card {
-  padding: 1rem 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
+.header { padding: 1rem 1.2rem; }
+.header h1 { margin: 0 0 0.35rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+.header p { margin: 0; color: var(--muted); }
 
-.hero-card h1,
-h2 {
-  margin: 0 0 0.4rem;
-  font-family: "Baloo 2", cursive;
-}
-
-.hero-card p {
-  margin: 0;
-  color: var(--soft);
-  max-width: 760px;
-}
-
-.cta-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 0.9rem 1rem;
-  font-weight: 800;
-  color: #fff;
-  cursor: pointer;
-  background: linear-gradient(135deg, var(--orange), #ffb347);
-}
-
-.lab-layout {
+.workspace {
   display: grid;
   gap: 1rem;
 }
 
-.microscope-station {
-  background: linear-gradient(180deg, #fdfefe 0%, #e9eef7 100%);
-  border-radius: 20px;
-  min-height: 660px;
+.microscope-area {
+  background: linear-gradient(180deg, #fdfefe 0, #e6ecf5 100%);
+  border-radius: 18px;
+  min-height: 760px;
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6), 0 18px 35px rgba(15, 35, 64, 0.12);
+  box-shadow: 0 12px 30px rgba(29, 41, 57, 0.12);
 }
 
-.bench {
+.microscope-body {
   position: absolute;
-  left: -5%;
-  right: -5%;
-  bottom: 0;
-  height: 115px;
-  background: linear-gradient(90deg, #b5875b, #9a6b43 30%, #8f5f35 50%, #9a6b43 70%, #b5875b);
+  inset: 0;
+  opacity: 0.92;
 }
 
-.microscope {
+.eyetube, .head, .arm, .stage, .base {
   position: absolute;
-  left: 50%;
-  bottom: 65px;
-  transform: translateX(-50%);
-  width: min(90%, 560px);
-  aspect-ratio: 0.92;
+  background: linear-gradient(180deg, #62758b, #3f4d5d);
 }
 
-.base {
-  position: absolute;
-  bottom: 0;
-  left: 14%;
-  width: 72%;
-  height: 18%;
-  border-radius: 26px 26px 14px 14px;
-  background: linear-gradient(180deg, #3f4f62, #293644);
-  box-shadow: inset 0 6px 8px rgba(255, 255, 255, 0.15);
-}
-
+.eyetube { width: 10%; height: 14%; left: 53%; top: 4%; border-radius: 10px; transform: rotate(-18deg); }
+.head { width: 30%; height: 14%; left: 35%; top: 14%; border-radius: 14px; transform: rotate(-18deg); }
 .arm {
-  position: absolute;
-  left: 18%;
-  bottom: 16%;
-  width: 36%;
-  height: 54%;
-  border-radius: 120px 120px 30px 30px;
-  border: 20px solid #3e4d60;
-  border-right-width: 14px;
-  border-bottom-width: 14px;
-  transform: rotate(8deg);
+  width: 34%; height: 52%; left: 18%; top: 24%; border-radius: 110px 110px 28px 28px;
+  border: 17px solid var(--steel); border-bottom-width: 13px; border-right-width: 13px;
+  background: transparent;
 }
+.stage { width: 36%; height: 10%; left: 40%; top: 50%; border-radius: 14px; }
+.base { width: 60%; height: 16%; left: 18%; bottom: 5%; border-radius: 26px 26px 12px 12px; }
 
-.head {
+.viewer {
   position: absolute;
-  top: 9%;
-  left: 34%;
-  width: 31%;
-  height: 16%;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #58697f, #3f4e62);
-  transform: rotate(-16deg);
-}
-
-.eyepiece {
-  position: absolute;
-  top: 0;
-  left: 54%;
-  width: 12%;
-  height: 13%;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #1f2a34, #5e7087);
-  transform: rotate(-16deg);
-}
-
-.turret {
-  position: absolute;
-  top: 31%;
-  left: 44%;
-  width: 16%;
-  height: 8%;
-  border-radius: 99px;
-  background: linear-gradient(180deg, #596c83, #2d3a49);
-  transform: rotate(0deg);
-  transition: transform 0.5s ease;
-}
-
-.objective {
-  position: absolute;
-  top: 37%;
-  width: 4.2%;
-  height: 12%;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #1f2a34, #405161);
-  box-shadow: inset 0 -8px 8px rgba(255, 255, 255, 0.12);
-  transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.objective-left { left: 44%; transform: rotate(18deg); opacity: 0.55; }
-.objective-center { left: 50%; transform: rotate(0deg) scale(1.05); }
-.objective-right { left: 56%; transform: rotate(-18deg); opacity: 0.55; }
-
-.objective.active {
-  opacity: 1;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
-}
-
-.focus-knob {
-  position: absolute;
-  left: 21%;
-  top: 36%;
-  width: 10%;
+  right: 5%;
+  top: 14%;
+  width: min(66%, 600px);
   aspect-ratio: 1;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #91a0b3, #394859 65%);
-  border: 4px solid #2d3b4d;
-  transform: rotate(0deg);
-  transition: transform 0.2s linear;
-}
-
-.focus-knob-small {
-  left: 26%;
-  top: 42%;
-  width: 6%;
-}
-
-.stage {
-  position: absolute;
-  left: 35%;
-  top: 45%;
-  width: 44%;
-  height: 27%;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #4f5f73, #2a3646);
-  box-shadow: inset 0 5px 8px rgba(255, 255, 255, 0.15);
-}
-
-.stage-clips {
-  position: absolute;
-  top: 18%;
-  left: 10%;
-  width: 80%;
-  height: 10%;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #cad5e4, #f2f6fc, #cad5e4);
-}
-
-.slide {
-  position: absolute;
-  top: 38%;
-  left: -45%;
-  width: 56%;
-  height: 24%;
-  border-radius: 8px;
-  background: linear-gradient(180deg, rgba(206, 247, 255, 0.78), rgba(228, 253, 255, 0.35));
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  color: #285268;
-}
-
-.slide.insertion {
-  animation: insertSlide 1s ease forwards;
-}
-
-@keyframes insertSlide {
-  0% {
-    left: -45%;
-    opacity: 0;
-    transform: rotate(-2deg);
-  }
-  80% {
-    left: 24%;
-    opacity: 1;
-  }
-  100% {
-    left: 22%;
-    transform: rotate(0);
-  }
-}
-
-.viewer-frame {
-  position: absolute;
-  width: 58%;
-  aspect-ratio: 1;
-  right: -16%;
-  top: -34%;
-  border-radius: 999px;
+  border: 14px solid #18212c;
   overflow: hidden;
-  border: 14px solid #1b2632;
-  background: #cfd8e3;
-  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.45), 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 18px rgba(0,0,0,.55), 0 10px 24px rgba(0,0,0,.22);
+  background: #ccd8e8;
 }
 
-.microscope-view {
+#microCanvas {
   width: 100%;
   height: 100%;
-  transform-origin: center;
+  display: block;
   cursor: grab;
-  transition: transform 0.18s ease, filter 0.2s ease, background 0.4s ease;
 }
 
-.microscope-view.dragging {
-  cursor: grabbing;
-}
+#microCanvas.dragging { cursor: grabbing; }
 
 .reticle {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(transparent calc(50% - 1px), rgba(255, 255, 255, 0.35) calc(50% - 1px), rgba(255, 255, 255, 0.35) calc(50% + 1px), transparent calc(50% + 1px)),
-    linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, 0.35) calc(50% - 1px), rgba(255, 255, 255, 0.35) calc(50% + 1px), transparent calc(50% + 1px));
+    linear-gradient(transparent calc(50% - 1px), rgba(255,255,255,.35) calc(50% - 1px), rgba(255,255,255,.35) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(255,255,255,.35) calc(50% - 1px), rgba(255,255,255,.35) calc(50% + 1px), transparent calc(50% + 1px));
 }
 
-.hotspot-btn {
+.live-note {
   position: absolute;
-  right: 12%;
-  bottom: 12%;
-  border: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  background: radial-gradient(circle at 30% 25%, #fff7c2, #ffb84d 70%);
-  box-shadow: 0 0 0 0 rgba(255, 188, 59, 0.5);
-  animation: pulse 1.8s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 188, 59, 0.5); }
-  70% { box-shadow: 0 0 0 12px rgba(255, 188, 59, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 188, 59, 0); }
-}
-
-.hotspot-info {
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: 10%;
-  font-size: 0.85rem;
-  color: #fff;
-  background: rgba(18, 35, 55, 0.8);
+  left: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  background: rgba(15, 23, 42, .82);
+  color: #e7efff;
+  padding: .6rem .8rem;
   border-radius: 10px;
-  padding: 0.4rem 0.5rem;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-weight: 600;
 }
 
-.hotspot-info.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.control-panel {
+.panel {
   padding: 1rem;
   display: grid;
-  gap: 0.8rem;
+  gap: .95rem;
   align-content: start;
 }
 
-.samples-grid {
+.panel h2 { font-size: 1rem; margin: 0 0 .45rem; }
+
+.samples {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.6rem;
+  gap: .5rem;
 }
 
-.sample-btn {
-  border: 2px solid #e4eaf4;
-  border-radius: 14px;
-  background: #f9fbff;
-  padding: 0.6rem;
-  text-align: left;
+.samples button,
+.objectives button {
+  border: 1px solid #d2dbe7;
+  background: #f8fbff;
+  color: #1e2e42;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: .55rem;
   cursor: pointer;
-  font-weight: 800;
-  color: #314255;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.sample-btn span {
-  display: block;
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: var(--soft);
+.samples button.active,
+.objectives button.active {
+  border-color: var(--primary);
+  background: #e9f0ff;
 }
 
-.sample-btn:hover,
-.sample-btn:focus-visible {
-  transform: translateY(-2px);
-  border-color: #c6d7ff;
-  box-shadow: 0 10px 16px rgba(64, 96, 155, 0.18);
-  outline: none;
-}
-
-.sample-btn.active {
-  border-color: var(--accent);
-  background: #eff2ff;
-}
-
-.control-panel label {
+.objectives {
   display: grid;
-  gap: 0.25rem;
-  font-weight: 800;
-  color: #33475f;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .45rem;
 }
 
-input[type="range"] {
-  width: 100%;
-  accent-color: var(--accent-2);
+label {
+  display: grid;
+  gap: .22rem;
+  font-size: .93rem;
+  font-weight: 600;
+  color: #2a3a50;
 }
 
-.helper {
-  margin: 0;
-  color: var(--soft);
-  font-size: 0.92rem;
+input[type="range"] { width: 100%; accent-color: #0ea5e9; }
+
+.facts p { margin: 0; color: #2f4b67; font-weight: 600; }
+
+@media (min-width: 1080px) {
+  .workspace { grid-template-columns: 1.45fr 1fr; }
 }
 
-.insight-card {
-  padding: 1rem;
-  background: linear-gradient(130deg, #ebf4ff, #effcf9);
-}
-
-.insight-card p {
-  margin: 0;
-  color: #26425a;
-  font-weight: 700;
-}
-
-@media (min-width: 1024px) {
-  .lab-layout {
-    grid-template-columns: 1.45fr 1fr;
-  }
-}
-
-@media (max-width: 780px) {
-  .hero-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .microscope-station {
-    min-height: 540px;
-  }
+@media (max-width: 860px) {
+  .microscope-area { min-height: 620px; }
+  .viewer { right: 3%; width: min(72%, 520px); }
 }

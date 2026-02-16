@@ -3,92 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MicroAventura Pro</title>
+    <title>Simulador de Microscopio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@500;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
-      <header class="hero-card">
-        <div>
-          <h1>🔬 MicroAventura Pro</h1>
-          <p>
-            Explora agua, frutas y tierra como una científica o científico real. Elige una muestra,
-            coloca el portaobjetos y gira el enfoque para descubrir un mundo diminuto.
-          </p>
-        </div>
-        <button id="randomBtn" type="button" class="cta-btn">🎲 Exploración sorpresa</button>
+    <main class="layout">
+      <header class="header">
+        <h1>🔬 Simulador de Microscopio Realista</h1>
+        <p>Selecciona una muestra, elige un objetivo y ajusta enfoque, luz y platina para observar como en un microscopio escolar real.</p>
       </header>
 
-      <section class="lab-layout" aria-label="Laboratorio interactivo">
-        <div class="microscope-station">
-          <div class="bench" aria-hidden="true"></div>
-
-          <div class="microscope" aria-label="Microscopio virtual completo">
-            <div class="arm"></div>
+      <section class="workspace">
+        <article class="microscope-area" aria-label="Microscopio virtual">
+          <div class="microscope-body" aria-hidden="true">
+            <div class="eyetube"></div>
             <div class="head"></div>
-            <div class="eyepiece"></div>
-            <div class="focus-knob"></div>
-            <div class="focus-knob focus-knob-small"></div>
-
-            <div class="turret" id="turret"></div>
-            <div class="objective objective-left"></div>
-            <div class="objective objective-center active"></div>
-            <div class="objective objective-right"></div>
-
-            <div class="stage">
-              <div class="stage-clips" aria-hidden="true"></div>
-              <div class="slide insertion" id="slide">
-                <span id="slideLabel">Agua</span>
-              </div>
-              <div class="viewer-frame" id="viewerFrame">
-                <div class="microscope-view" id="microscopeView"></div>
-                <div class="reticle" aria-hidden="true"></div>
-                <button id="hotspotBtn" class="hotspot-btn" type="button" aria-label="Descubrir detalle de la muestra">
-                  ✨
-                </button>
-                <div id="hotspotInfo" class="hotspot-info" role="status" aria-live="polite"></div>
-              </div>
-            </div>
-
+            <div class="arm"></div>
+            <div class="stage"></div>
             <div class="base"></div>
           </div>
-        </div>
 
-        <aside class="control-panel" aria-label="Panel de controles del microscopio">
-          <h2>1) Elige la muestra</h2>
-          <div class="samples-grid" id="samples"></div>
+          <div class="viewer" id="viewer">
+            <canvas id="microCanvas" width="820" height="820" aria-label="Vista microscópica"></canvas>
+            <div class="reticle"></div>
+          </div>
 
-          <h2>2) Ajusta el microscopio</h2>
-          <label>
-            🔍 Zoom objetivo: <span id="zoomValue">4x</span>
-            <input type="range" id="zoomControl" min="1" max="10" value="4" />
-          </label>
+          <p class="live-note" id="focusState"></p>
+        </article>
 
-          <label>
-            🎯 Enfoque fino: <span id="focusValue">88%</span>
-            <input type="range" id="focusControl" min="35" max="100" value="88" />
-          </label>
+        <aside class="panel" aria-label="Controles">
+          <section>
+            <h2>Muestras</h2>
+            <div class="samples" id="samples"></div>
+          </section>
 
-          <label>
-            💡 Iluminación: <span id="lightValue">75%</span>
-            <input type="range" id="lightControl" min="30" max="100" value="75" />
-          </label>
+          <section>
+            <h2>Objetivo</h2>
+            <div class="objectives" id="objectiveButtons">
+              <button type="button" data-objective="4">4x</button>
+              <button type="button" data-objective="10" class="active">10x</button>
+              <button type="button" data-objective="40">40x</button>
+              <button type="button" data-objective="100">100x</button>
+            </div>
+          </section>
 
-          <p class="helper">
-            Consejo: arrastra dentro del visor para mover la muestra y pulsa ✨ para ver detalles.
-          </p>
+          <section>
+            <h2>Enfoque y luz</h2>
+            <label>Enfoque grueso <span id="coarseVal">50</span>
+              <input id="coarseFocus" type="range" min="0" max="100" value="50" />
+            </label>
+            <label>Enfoque fino <span id="fineVal">0</span>
+              <input id="fineFocus" type="range" min="-25" max="25" value="0" />
+            </label>
+            <label>Intensidad de luz <span id="lightVal">75%</span>
+              <input id="lightControl" type="range" min="20" max="100" value="75" />
+            </label>
+            <label>Diafragma (iris) <span id="irisVal">65%</span>
+              <input id="irisControl" type="range" min="25" max="100" value="65" />
+            </label>
+          </section>
+
+          <section>
+            <h2>Movimiento de platina</h2>
+            <label>Eje X <span id="xVal">0</span>
+              <input id="stageX" type="range" min="-100" max="100" value="0" />
+            </label>
+            <label>Eje Y <span id="yVal">0</span>
+              <input id="stageY" type="range" min="-100" max="100" value="0" />
+            </label>
+          </section>
+
+          <section class="facts">
+            <h2>Hallazgo</h2>
+            <p id="factText"></p>
+          </section>
         </aside>
-      </section>
-
-      <section class="insight-card" aria-live="polite">
-        <h2>🧠 Descubrimiento del día</h2>
-        <p id="factText"></p>
       </section>
     </main>
 

@@ -1,221 +1,298 @@
-const samples = [
+const SAMPLE_CONFIG = [
   {
-    id: "agua",
-    emoji: "💧",
-    name: "Agua",
-    subtitle: "Gota limpia",
-    description: "Pequeñas burbujas y ondas brillantes como un mini océano.",
-    fact: "En gotas de agua pueden vivir microorganismos muy pequeños.",
-    hotspot: "¡Mira! Ese brillo se produce por cómo la luz atraviesa la gota.",
-    texture:
-      "radial-gradient(circle at 28% 32%, rgba(255,255,255,0.85), transparent 24%), radial-gradient(circle at 70% 58%, rgba(255,255,255,0.5), transparent 18%), repeating-radial-gradient(circle, #98dcff 0 10px, #6ec6f1 10px 20px, #4eaed8 20px 30px)",
+    id: "water",
+    label: "💧 Agua",
+    fact: "Se observan micro-burbujas y partículas suspendidas en movimiento browniano.",
+    focalPlane: 48,
+    background: "#8fcdf0",
+    particles: { count: 180, minR: 1.5, maxR: 8, palette: ["#dff7ff", "#9ed5ef", "#68b8e4"] },
+    drift: 0.9,
   },
   {
-    id: "fresa",
-    emoji: "🍓",
-    name: "Fresa",
-    subtitle: "Fruta roja",
-    description: "Montes rojitos con semillas amarillas en relieve.",
-    fact: "Las semillas de la fresa están por fuera de la fruta.",
-    hotspot: "Las bolitas amarillas son semillas; cada una puede crecer en una planta.",
-    texture:
-      "radial-gradient(circle at 22% 32%, #ffe088 0 10px, transparent 12px), radial-gradient(circle at 65% 55%, #ffe088 0 9px, transparent 11px), radial-gradient(circle at 75% 25%, #ffe088 0 8px, transparent 10px), repeating-radial-gradient(circle, #ff6784 0 10px, #ff4f73 10px 19px, #d63459 19px 30px)",
+    id: "strawberry",
+    label: "🍓 Fresa",
+    fact: "A mayor aumento se distinguen estructuras granulares y poros de la superficie.",
+    focalPlane: 56,
+    background: "#d0425f",
+    particles: { count: 220, minR: 2, maxR: 10, palette: ["#ffb657", "#fef3c7", "#b91c1c"] },
+    drift: 0.15,
   },
   {
-    id: "tierra",
-    emoji: "🌱",
-    name: "Tierra",
-    subtitle: "Suelo fértil",
-    description: "Granitos, minerales y pequeñas fibras orgánicas.",
-    fact: "La tierra guarda minerales que ayudan a crecer a las plantas.",
-    hotspot: "Ese tono diferente indica que hay piedras y restos de hojas mezclados.",
-    texture:
-      "radial-gradient(circle at 30% 25%, #9b7b53 0 12px, transparent 13px), radial-gradient(circle at 60% 45%, #7a5d3f 0 10px, transparent 12px), radial-gradient(circle at 75% 70%, #5f472f 0 13px, transparent 15px), repeating-radial-gradient(circle, #cca77f 0 12px, #b68e63 12px 23px, #9f784f 23px 35px)",
+    id: "soil",
+    label: "🌱 Tierra",
+    fact: "Se identifican granos irregulares de distinto tamaño con alto contraste de borde.",
+    focalPlane: 42,
+    background: "#9a704a",
+    particles: { count: 260, minR: 1.5, maxR: 12, palette: ["#dbba8f", "#7f5539", "#4e342e"] },
+    drift: 0.25,
   },
   {
-    id: "hoja",
-    emoji: "🍃",
-    name: "Hoja",
-    subtitle: "Verde viva",
-    description: "Canales verdes por donde viajan agua y nutrientes.",
-    fact: "Las venitas de la hoja son como carreteras internas.",
-    hotspot: "Las líneas claras son venas que transportan agua dentro de la hoja.",
-    texture:
-      "linear-gradient(20deg, rgba(255,255,255,0.35) 2px, transparent 2px) 0 0 / 36px 36px, linear-gradient(160deg, rgba(255,255,255,0.24) 2px, transparent 2px) 0 0 / 42px 42px, repeating-linear-gradient(45deg, #6fd46a 0 12px, #52be55 12px 23px, #38a849 23px 35px)",
+    id: "leaf",
+    label: "🍃 Hoja",
+    fact: "Las nervaduras se comportan como líneas de conducción de agua y nutrientes.",
+    focalPlane: 62,
+    background: "#4e9e47",
+    particles: { count: 140, minR: 2, maxR: 7, palette: ["#a4df8a", "#5ab85a", "#2f6e35"] },
+    drift: 0.08,
+    veins: true,
   },
   {
-    id: "pan",
-    emoji: "🍞",
-    name: "Pan",
-    subtitle: "Miga",
-    description: "Cavidades esponjosas de aire atrapado.",
-    fact: "La levadura crea gas y por eso aparecen agujeritos en el pan.",
-    hotspot: "Ese huequito se formó por burbujas de gas durante el horneado.",
-    texture:
-      "radial-gradient(circle at 15% 20%, #f9dfb2 0 16px, transparent 17px), radial-gradient(circle at 55% 65%, #f4d29b 0 14px, transparent 15px), radial-gradient(circle at 78% 40%, #f2c98c 0 12px, transparent 14px), repeating-radial-gradient(circle, #ffddb0 0 14px, #efc88d 14px 28px, #d8ad72 28px 42px)",
+    id: "bread",
+    label: "🍞 Pan",
+    fact: "La miga muestra cavidades por gas liberado durante la fermentación y cocción.",
+    focalPlane: 52,
+    background: "#d6b78b",
+    particles: { count: 170, minR: 6, maxR: 20, palette: ["#f1d8a9", "#c89d66", "#a8743f"] },
+    drift: 0.02,
   },
 ];
 
-const elements = {
-  samples: document.getElementById("samples"),
-  microscopeView: document.getElementById("microscopeView"),
-  factText: document.getElementById("factText"),
-  slide: document.getElementById("slide"),
-  slideLabel: document.getElementById("slideLabel"),
-  zoomControl: document.getElementById("zoomControl"),
-  lightControl: document.getElementById("lightControl"),
-  focusControl: document.getElementById("focusControl"),
-  zoomValue: document.getElementById("zoomValue"),
-  lightValue: document.getElementById("lightValue"),
-  focusValue: document.getElementById("focusValue"),
-  randomBtn: document.getElementById("randomBtn"),
-  turret: document.getElementById("turret"),
-  hotspotBtn: document.getElementById("hotspotBtn"),
-  hotspotInfo: document.getElementById("hotspotInfo"),
+const objectiveSpec = {
+  4: { zoom: 1.1, dof: 28, detail: 0.65 },
+  10: { zoom: 1.8, dof: 16, detail: 0.85 },
+  40: { zoom: 3.1, dof: 7, detail: 1.1 },
+  100: { zoom: 4.2, dof: 3.8, detail: 1.3 },
 };
 
-let activeSample = samples[0];
-let offsetX = 0;
-let offsetY = 0;
-let dragState = null;
+const els = {
+  canvas: document.getElementById("microCanvas"),
+  viewer: document.getElementById("viewer"),
+  focusState: document.getElementById("focusState"),
+  samples: document.getElementById("samples"),
+  objectiveButtons: document.getElementById("objectiveButtons"),
+  coarse: document.getElementById("coarseFocus"),
+  fine: document.getElementById("fineFocus"),
+  light: document.getElementById("lightControl"),
+  iris: document.getElementById("irisControl"),
+  stageX: document.getElementById("stageX"),
+  stageY: document.getElementById("stageY"),
+  coarseVal: document.getElementById("coarseVal"),
+  fineVal: document.getElementById("fineVal"),
+  lightVal: document.getElementById("lightVal"),
+  irisVal: document.getElementById("irisVal"),
+  xVal: document.getElementById("xVal"),
+  yVal: document.getElementById("yVal"),
+  fact: document.getElementById("factText"),
+};
 
-function renderSampleButtons() {
-  elements.samples.innerHTML = "";
+const ctx = els.canvas.getContext("2d");
+let activeSample = SAMPLE_CONFIG[0];
+let objective = 10;
+let stageOffset = { x: 0, y: 0 };
+let drag = null;
+let t = 0;
 
-  samples.forEach((sample) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "sample-btn";
-    button.dataset.id = sample.id;
-    button.innerHTML = `${sample.emoji} ${sample.name}<span>${sample.subtitle}</span>`;
-    button.addEventListener("click", () => {
-      activeSample = sample;
-      playSlideInsertion();
-      refreshView();
+function seededRandom(seed) {
+  let value = seed;
+  return () => {
+    value = (value * 9301 + 49297) % 233280;
+    return value / 233280;
+  };
+}
+
+function buildTexture(sample) {
+  const rnd = seededRandom(sample.id.length * 1337);
+  const particles = [];
+  for (let i = 0; i < sample.particles.count; i += 1) {
+    particles.push({
+      x: rnd() * 2000 - 1000,
+      y: rnd() * 2000 - 1000,
+      r: sample.particles.minR + rnd() * (sample.particles.maxR - sample.particles.minR),
+      depth: rnd() * 100,
+      tone: sample.particles.palette[Math.floor(rnd() * sample.particles.palette.length)],
+      jitter: rnd() * Math.PI * 2,
     });
-
-    elements.samples.appendChild(button);
-  });
-}
-
-function updateTurret(zoom) {
-  const angle = (zoom - 1) * 3;
-  elements.turret.style.transform = `rotate(${angle}deg)`;
-
-  const objectives = document.querySelectorAll(".objective");
-  objectives.forEach((obj) => obj.classList.remove("active"));
-
-  if (zoom <= 3) {
-    document.querySelector(".objective-left")?.classList.add("active");
-  } else if (zoom <= 7) {
-    document.querySelector(".objective-center")?.classList.add("active");
-  } else {
-    document.querySelector(".objective-right")?.classList.add("active");
   }
+
+  return particles;
 }
 
-function playSlideInsertion() {
-  elements.slide.classList.remove("insertion");
-  void elements.slide.offsetWidth;
-  elements.slide.classList.add("insertion");
-  elements.slideLabel.textContent = activeSample.name;
+const sampleTextureMap = new Map(SAMPLE_CONFIG.map((s) => [s.id, buildTexture(s)]));
+
+function focusQuality() {
+  const focusPos = Number(els.coarse.value) + Number(els.fine.value) / 2;
+  const diff = Math.abs(focusPos - activeSample.focalPlane);
+  const dof = objectiveSpec[objective].dof;
+  return Math.max(0, 1 - diff / dof);
 }
 
-function refreshView() {
-  document.querySelectorAll(".sample-btn").forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.id === activeSample.id);
-  });
-
-  const zoom = Number(elements.zoomControl.value);
-  const light = Number(elements.lightControl.value);
-  const focus = Number(elements.focusControl.value);
-
-  const scale = 1 + zoom * 0.2;
-  const blur = ((100 - focus) / 55).toFixed(2);
-
-  elements.microscopeView.style.background = activeSample.texture;
-  elements.microscopeView.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
-  elements.microscopeView.style.filter = `brightness(${light / 100}) blur(${blur}px)`;
-
-  const knobRotation = (focus - 35) * 4;
-  document.querySelectorAll(".focus-knob").forEach((knob) => {
-    knob.style.transform = `rotate(${knobRotation}deg)`;
-  });
-
-  elements.zoomValue.textContent = `${zoom}x`;
-  elements.lightValue.textContent = `${light}%`;
-  elements.focusValue.textContent = `${focus}%`;
-  elements.factText.textContent = activeSample.fact;
-
-  updateTurret(zoom);
+function describeFocus(q) {
+  if (q > 0.82) return "Enfoque óptimo: imagen nítida.";
+  if (q > 0.45) return "Enfoque parcial: mejora con enfoque fino.";
+  return "Fuera de foco: ajusta enfoque grueso y fino.";
 }
 
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
+function drawVeins(scale, driftX, driftY) {
+  ctx.save();
+  ctx.translate(driftX, driftY);
+  ctx.scale(scale, scale);
+  ctx.strokeStyle = "rgba(210, 255, 210, 0.30)";
+  ctx.lineWidth = 5;
+  for (let i = -4; i <= 4; i += 1) {
+    ctx.beginPath();
+    ctx.moveTo(-1100, i * 110 + Math.sin(t * 0.01 + i) * 35);
+    ctx.quadraticCurveTo(-100, i * 120, 1100, i * 80 + Math.cos(t * 0.015 + i) * 40);
+    ctx.stroke();
+  }
+  ctx.restore();
 }
 
-function setupDragPan() {
-  elements.microscopeView.addEventListener("pointerdown", (event) => {
-    dragState = {
-      startX: event.clientX,
-      startY: event.clientY,
-      baseX: offsetX,
-      baseY: offsetY,
-    };
+function render() {
+  t += 1;
+  const W = els.canvas.width;
+  const H = els.canvas.height;
+  const centerX = W / 2;
+  const centerY = H / 2;
 
-    elements.microscopeView.classList.add("dragging");
-    elements.microscopeView.setPointerCapture(event.pointerId);
-  });
+  const light = Number(els.light.value) / 100;
+  const iris = Number(els.iris.value) / 100;
+  const quality = focusQuality();
+  const blur = (1 - quality) * (objective / 8);
+  const spec = objectiveSpec[objective];
 
-  elements.microscopeView.addEventListener("pointermove", (event) => {
-    if (!dragState) return;
+  ctx.clearRect(0, 0, W, H);
 
-    const deltaX = event.clientX - dragState.startX;
-    const deltaY = event.clientY - dragState.startY;
+  ctx.save();
+  ctx.translate(centerX, centerY);
 
-    offsetX = clamp(dragState.baseX + deltaX * 0.7, -55, 55);
-    offsetY = clamp(dragState.baseY + deltaY * 0.7, -55, 55);
-    refreshView();
-  });
+  const vignette = ctx.createRadialGradient(0, 0, H * 0.12, 0, 0, H * 0.56);
+  vignette.addColorStop(0, `rgba(255,255,255,${0.14 + light * 0.35})`);
+  vignette.addColorStop(1, "rgba(10, 18, 30, 0.92)");
 
-  elements.microscopeView.addEventListener("pointerup", () => {
-    dragState = null;
-    elements.microscopeView.classList.remove("dragging");
+  const bg = activeSample.background;
+  ctx.fillStyle = bg;
+  ctx.fillRect(-W, -H, W * 2, H * 2);
+
+  if (activeSample.veins) {
+    drawVeins(spec.zoom, stageOffset.x * 0.8, stageOffset.y * 0.8);
+  }
+
+  const particles = sampleTextureMap.get(activeSample.id) || [];
+  for (const p of particles) {
+    const zRatio = 1 + (p.depth / 100) * 0.55 * spec.detail;
+    const px = (p.x + stageOffset.x * 4 + Math.sin(t * 0.01 + p.jitter) * activeSample.drift * 7) * spec.zoom * zRatio;
+    const py = (p.y + stageOffset.y * 4 + Math.cos(t * 0.01 + p.jitter) * activeSample.drift * 7) * spec.zoom * zRatio;
+
+    if (Math.abs(px) > W || Math.abs(py) > H) continue;
+
+    const depthDefocus = Math.abs((Number(els.coarse.value) + Number(els.fine.value) / 2) - p.depth) / objectiveSpec[objective].dof;
+    const alpha = Math.max(0.05, (1 - depthDefocus * 0.6) * iris);
+    const r = p.r * spec.zoom * (1 + (1 - quality) * 0.12);
+
+    ctx.beginPath();
+    ctx.fillStyle = p.tone;
+    ctx.globalAlpha = alpha;
+    ctx.arc(px, py, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // optical blur approximation by repeated translucent overlay
+  if (blur > 0.2) {
+    ctx.globalAlpha = Math.min(0.36, blur * 0.12);
+    for (let i = 0; i < Math.ceil(blur * 2); i += 1) {
+      ctx.drawImage(els.canvas, -1 - i * 0.15, -1 + i * 0.15, W, H, -W / 2, -H / 2, W, H);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.fillStyle = vignette;
+  ctx.fillRect(-W / 2, -H / 2, W, H);
+
+  const irisMask = ctx.createRadialGradient(0, 0, H * 0.35 * iris, 0, 0, H * 0.55);
+  irisMask.addColorStop(0, "rgba(255,255,255,0)");
+  irisMask.addColorStop(1, `rgba(0,0,0,${0.55 - iris * 0.35})`);
+  ctx.fillStyle = irisMask;
+  ctx.fillRect(-W / 2, -H / 2, W, H);
+
+  ctx.restore();
+
+  els.focusState.textContent = `${describeFocus(quality)} Objetivo ${objective}x.`;
+  requestAnimationFrame(render);
+}
+
+function refreshLabels() {
+  els.coarseVal.textContent = els.coarse.value;
+  els.fineVal.textContent = els.fine.value;
+  els.lightVal.textContent = `${els.light.value}%`;
+  els.irisVal.textContent = `${els.iris.value}%`;
+  els.xVal.textContent = els.stageX.value;
+  els.yVal.textContent = els.stageY.value;
+}
+
+function setSample(sample) {
+  activeSample = sample;
+  els.fact.textContent = sample.fact;
+  document.querySelectorAll("#samples button").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.id === sample.id);
   });
 }
 
-function setupHotspot() {
-  elements.hotspotBtn.addEventListener("click", () => {
-    elements.hotspotInfo.textContent = activeSample.hotspot;
-    elements.hotspotInfo.classList.add("show");
+function initSamples() {
+  SAMPLE_CONFIG.forEach((sample, index) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.dataset.id = sample.id;
+    btn.textContent = sample.label;
+    if (index === 0) btn.classList.add("active");
+    btn.addEventListener("click", () => setSample(sample));
+    els.samples.appendChild(btn);
+  });
+  setSample(SAMPLE_CONFIG[0]);
+}
 
-    window.clearTimeout(setupHotspot.timer);
-    setupHotspot.timer = window.setTimeout(() => {
-      elements.hotspotInfo.classList.remove("show");
-    }, 3200);
+function initObjectives() {
+  els.objectiveButtons.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      objective = Number(btn.dataset.objective);
+      els.objectiveButtons.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+    });
   });
 }
 
-["input", "change"].forEach((eventName) => {
-  elements.zoomControl.addEventListener(eventName, refreshView);
-  elements.lightControl.addEventListener(eventName, refreshView);
-  elements.focusControl.addEventListener(eventName, refreshView);
-});
+function initStageControl() {
+  const syncStage = () => {
+    stageOffset.x = Number(els.stageX.value);
+    stageOffset.y = Number(els.stageY.value);
+    refreshLabels();
+  };
 
-elements.randomBtn.addEventListener("click", () => {
-  activeSample = samples[Math.floor(Math.random() * samples.length)];
-  elements.zoomControl.value = String(Math.floor(Math.random() * 10) + 1);
-  elements.lightControl.value = String(Math.floor(Math.random() * 71) + 30);
-  elements.focusControl.value = String(Math.floor(Math.random() * 66) + 35);
-  offsetX = Math.floor(Math.random() * 80) - 40;
-  offsetY = Math.floor(Math.random() * 80) - 40;
+  [els.coarse, els.fine, els.light, els.iris, els.stageX, els.stageY].forEach((input) => {
+    input.addEventListener("input", syncStage);
+    input.addEventListener("change", syncStage);
+  });
 
-  playSlideInsertion();
-  refreshView();
-});
+  els.canvas.addEventListener("pointerdown", (e) => {
+    drag = { x: e.clientX, y: e.clientY, sx: stageOffset.x, sy: stageOffset.y };
+    els.canvas.classList.add("dragging");
+    els.canvas.setPointerCapture(e.pointerId);
+  });
 
-renderSampleButtons();
-setupDragPan();
-setupHotspot();
-playSlideInsertion();
-refreshView();
+  els.canvas.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    const dx = (e.clientX - drag.x) * 0.35;
+    const dy = (e.clientY - drag.y) * 0.35;
+    stageOffset.x = Math.max(-100, Math.min(100, drag.sx - dx));
+    stageOffset.y = Math.max(-100, Math.min(100, drag.sy - dy));
+    els.stageX.value = String(Math.round(stageOffset.x));
+    els.stageY.value = String(Math.round(stageOffset.y));
+    refreshLabels();
+  });
+
+  const endDrag = () => {
+    drag = null;
+    els.canvas.classList.remove("dragging");
+  };
+
+  els.canvas.addEventListener("pointerup", endDrag);
+  els.canvas.addEventListener("pointercancel", endDrag);
+
+  syncStage();
+}
+
+initSamples();
+initObjectives();
+initStageControl();
+refreshLabels();
+render();
