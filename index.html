@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de Microscopio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <header class="header">
+        <h1>🔬 Simulador de Microscopio Realista</h1>
+        <p>Selecciona una muestra, elige un objetivo y ajusta enfoque, luz y platina para observar como en un microscopio escolar real.</p>
+      </header>
+
+      <section class="workspace">
+        <article class="microscope-area" aria-label="Microscopio virtual">
+          <div class="microscope-body" aria-hidden="true">
+            <div class="eyetube"></div>
+            <div class="head"></div>
+            <div class="arm"></div>
+            <div class="stage"></div>
+            <div class="base"></div>
+          </div>
+
+          <div class="viewer" id="viewer">
+            <canvas id="microCanvas" width="820" height="820" aria-label="Vista microscópica"></canvas>
+            <div class="reticle"></div>
+          </div>
+
+          <p class="live-note" id="focusState"></p>
+        </article>
+
+        <aside class="panel" aria-label="Controles">
+          <section>
+            <h2>Muestras</h2>
+            <div class="samples" id="samples"></div>
+          </section>
+
+          <section>
+            <h2>Objetivo</h2>
+            <div class="objectives" id="objectiveButtons">
+              <button type="button" data-objective="4">4x</button>
+              <button type="button" data-objective="10" class="active">10x</button>
+              <button type="button" data-objective="40">40x</button>
+              <button type="button" data-objective="100">100x</button>
+            </div>
+          </section>
+
+          <section>
+            <h2>Enfoque y luz</h2>
+            <label>Enfoque grueso <span id="coarseVal">50</span>
+              <input id="coarseFocus" type="range" min="0" max="100" value="50" />
+            </label>
+            <label>Enfoque fino <span id="fineVal">0</span>
+              <input id="fineFocus" type="range" min="-25" max="25" value="0" />
+            </label>
+            <label>Intensidad de luz <span id="lightVal">75%</span>
+              <input id="lightControl" type="range" min="20" max="100" value="75" />
+            </label>
+            <label>Diafragma (iris) <span id="irisVal">65%</span>
+              <input id="irisControl" type="range" min="25" max="100" value="65" />
+            </label>
+          </section>
+
+          <section>
+            <h2>Movimiento de platina</h2>
+            <label>Eje X <span id="xVal">0</span>
+              <input id="stageX" type="range" min="-100" max="100" value="0" />
+            </label>
+            <label>Eje Y <span id="yVal">0</span>
+              <input id="stageY" type="range" min="-100" max="100" value="0" />
+            </label>
+          </section>
+
+          <section class="facts">
+            <h2>Hallazgo</h2>
+            <p id="factText"></p>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

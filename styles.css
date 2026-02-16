@@ -1,0 +1,172 @@
+:root {
+  --bg: #e9eef4;
+  --card: #ffffff;
+  --ink: #1f2937;
+  --muted: #4b5563;
+  --primary: #1d4ed8;
+  --steel: #49586b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 10% 0%, #f4f8ff, #edf2f8 35%, var(--bg) 100%);
+}
+
+.layout {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.header, .panel {
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(29, 41, 57, 0.12);
+}
+
+.header { padding: 1rem 1.2rem; }
+.header h1 { margin: 0 0 0.35rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+.header p { margin: 0; color: var(--muted); }
+
+.workspace {
+  display: grid;
+  gap: 1rem;
+}
+
+.microscope-area {
+  background: linear-gradient(180deg, #fdfefe 0, #e6ecf5 100%);
+  border-radius: 18px;
+  min-height: 760px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(29, 41, 57, 0.12);
+}
+
+.microscope-body {
+  position: absolute;
+  inset: 0;
+  opacity: 0.92;
+}
+
+.eyetube, .head, .arm, .stage, .base {
+  position: absolute;
+  background: linear-gradient(180deg, #62758b, #3f4d5d);
+}
+
+.eyetube { width: 10%; height: 14%; left: 53%; top: 4%; border-radius: 10px; transform: rotate(-18deg); }
+.head { width: 30%; height: 14%; left: 35%; top: 14%; border-radius: 14px; transform: rotate(-18deg); }
+.arm {
+  width: 34%; height: 52%; left: 18%; top: 24%; border-radius: 110px 110px 28px 28px;
+  border: 17px solid var(--steel); border-bottom-width: 13px; border-right-width: 13px;
+  background: transparent;
+}
+.stage { width: 36%; height: 10%; left: 40%; top: 50%; border-radius: 14px; }
+.base { width: 60%; height: 16%; left: 18%; bottom: 5%; border-radius: 26px 26px 12px 12px; }
+
+.viewer {
+  position: absolute;
+  right: 5%;
+  top: 14%;
+  width: min(66%, 600px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  border: 14px solid #18212c;
+  overflow: hidden;
+  box-shadow: inset 0 0 18px rgba(0,0,0,.55), 0 10px 24px rgba(0,0,0,.22);
+  background: #ccd8e8;
+}
+
+#microCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+#microCanvas.dragging { cursor: grabbing; }
+
+.reticle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(transparent calc(50% - 1px), rgba(255,255,255,.35) calc(50% - 1px), rgba(255,255,255,.35) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(255,255,255,.35) calc(50% - 1px), rgba(255,255,255,.35) calc(50% + 1px), transparent calc(50% + 1px));
+}
+
+.live-note {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  background: rgba(15, 23, 42, .82);
+  color: #e7efff;
+  padding: .6rem .8rem;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.panel {
+  padding: 1rem;
+  display: grid;
+  gap: .95rem;
+  align-content: start;
+}
+
+.panel h2 { font-size: 1rem; margin: 0 0 .45rem; }
+
+.samples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+}
+
+.samples button,
+.objectives button {
+  border: 1px solid #d2dbe7;
+  background: #f8fbff;
+  color: #1e2e42;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: .55rem;
+  cursor: pointer;
+}
+
+.samples button.active,
+.objectives button.active {
+  border-color: var(--primary);
+  background: #e9f0ff;
+}
+
+.objectives {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .45rem;
+}
+
+label {
+  display: grid;
+  gap: .22rem;
+  font-size: .93rem;
+  font-weight: 600;
+  color: #2a3a50;
+}
+
+input[type="range"] { width: 100%; accent-color: #0ea5e9; }
+
+.facts p { margin: 0; color: #2f4b67; font-weight: 600; }
+
+@media (min-width: 1080px) {
+  .workspace { grid-template-columns: 1.45fr 1fr; }
+}
+
+@media (max-width: 860px) {
+  .microscope-area { min-height: 620px; }
+  .viewer { right: 3%; width: min(72%, 520px); }
+}
